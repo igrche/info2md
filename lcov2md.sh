@@ -7,5 +7,4 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-lcov --no-list-full-path --list $1 \
-    | ${__DIR__}/lcov2md.py
+lcov --no-list-full-path --list $1 | ${__DIR__}/lcov2md.py
