@@ -8,4 +8,4 @@ if [ -z "$1" ]; then
 fi
 
 lcov --no-list-full-path --list $1 \
-    | ${__DIR__}/info2md.pl
+    | ${__DIR__}/info2md.py
