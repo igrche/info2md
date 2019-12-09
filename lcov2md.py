@@ -153,7 +153,7 @@ def main(argv):
         git_show = proc.communicate()[0].split("\n")
         os.chdir(cwd)
         print("## Git summary")
-        print("#### `git show --summary`")
+        print("- `git show --summary`")
         for line in git_show:
             print('    ' + line)
         print("")
