@@ -152,7 +152,8 @@ def main(argv):
         proc = subprocess.Popen("git show --summary", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
         git_show = proc.communicate()[0]
         os.chdir(cwd)
-        print("## Git summary (`git show --summary`)")
+        print("## Git summary")
+        print("#### git show --summary")
         print(git_show)
         print("")
     finally:
