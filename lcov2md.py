@@ -150,11 +150,12 @@ def main(argv):
         cwd = os.getcwd()
         os.chdir(repo_root)
         proc = subprocess.Popen("git show --summary", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
-        git_show = proc.communicate()[0]
+        git_show = proc.communicate()[0].split("\n")
         os.chdir(cwd)
         print("## Git summary")
         print("#### git show --summary")
-        print(git_show)
+        for line in git_show:
+            print('    ' + line)
         print("")
     except:
         pass
