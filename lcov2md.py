@@ -151,10 +151,10 @@ def main(argv):
         os.chdir(repo_root)
         proc = subprocess.Popen("git show --summary", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
         git_show = proc.communicate()[0]
+        os.chdir(cwd)
         print("## git show --summary")
         print(git_show)
         print("")
-        os.chdir(cwd)
     finally:
         pass
 
