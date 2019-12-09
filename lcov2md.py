@@ -13,7 +13,8 @@ from collections import OrderedDict
 import array
 
 
-remove_prefix = '/local/ichebykin/ichebykin.l/work/sorrento/i-chebykin.coverage/sorrento/'
+repo_root = '/local/ichebykin/ichebykin.l/work/sorrento/i-chebykin.coverage/sorrento/'
+remove_prefix = repo_root
 
 
 class SortedDict(OrderedDict):
@@ -144,6 +145,18 @@ def main(argv):
                total['f-rate'].rjust(len("Functions")),
                total['f-num'].rjust(len("Functions")))
         print("")
+
+    cwd = os.getcwd()
+    try:
+        os.chdir(repo_root)
+        proc = subprocess.Popen("git show --summary", stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+        git_show = proc.communicate()[0]
+        print("## git show --summary")
+        print(git_show)
+        print("")
+        os.chdir(cwd)
+    finally:
+        pass
 
     printf("## Directories")
     for dir in dirs_sorted:
