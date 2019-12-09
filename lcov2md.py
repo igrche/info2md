@@ -156,10 +156,12 @@ def main(argv):
         print("#### git show --summary")
         print(git_show)
         print("")
+    except:
+        pass
     finally:
         pass
 
-    printf("## Html version")
+    printf("## HTML version")
     printf("[http://compiler-dev1:8000/p4c-sorrento-coverage/index.html](http://compiler-dev1:8000/p4c-sorrento-coverage/index.html)")
     printf("")
 
