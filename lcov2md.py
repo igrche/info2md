@@ -159,6 +159,10 @@ def main(argv):
     finally:
         pass
 
+    printf("## Html version")
+    printf("[http://compiler-dev1:8000/p4c-sorrento-coverage/index.html](http://compiler-dev1:8000/p4c-sorrento-coverage/index.html)")
+    printf("")
+
     printf("## Directories")
     for dir in dirs_sorted:
         # https://github.com/pensando/sorrento/wiki/Sorrento-code-coverage#p4cextensionscapriprogram_processing
