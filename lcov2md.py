@@ -80,10 +80,36 @@ def print_total_header():
 
 
 def main(argv):
-    if len(argv) > 1:
-        input_stream = open(argv[1])
-    else:
+    sys_args = argv if argv is not None else sys.argv[:]
+    sys_args = [x for x in sys_args if x or isinstance(x, int)]
+
+    usage = "\n\t%prog [options] [-i lcov info file] [-o output file]"
+    description = "Convert lcov info file to markdown file\n"
+    epilog = "Version 1.01"
+    version = "1.01"
+    parser = OptionParser(usage=usage, description=description, version=version, epilog=epilog)
+
+    parser.add_option("-i", "--in",
+                      action="store", dest="in_file",
+                      metavar="PATH", default=None,
+                      help="Path to lcov info file, else use <stdin>")
+    parser.add_option("-o", "--out",
+                      action="store", dest="out_file",
+                      metavar="PATH", default=None,
+                      help="Path to output file, else use <stdout>")
+
+    (options, argv) = parser.parse_args(sys_args[1:])
+
+    if options.in_file is None:
         input_stream = sys.stdin
+    else:
+        # input_stream = open(options.in_file)
+        input_stream = os.popen('lcov --no-list-full-path --list ' + options.in_file)
+
+    orig_stdout = None
+    if options.out_file is not None:
+        orig_stdout = sys.stdout
+        sys.stdout = open(options.out_file, 'w')
 
     reDir = re.compile("\[([^\]\]]+)\]")
     dirs = {}
@@ -187,6 +213,10 @@ def main(argv):
                    file['f-rate'].rjust(len("Functions")),
                    file['f-num'].rjust(len("Functions")))
         print("")
+
+    if orig_stdout is not None:
+        sys.stdout.close()
+        sys.stdout = orig_stdout
 
     return 0
 
