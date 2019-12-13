@@ -13,8 +13,8 @@ from collections import OrderedDict
 import array
 
 
-repo_root = '/local/ichebykin/ichebykin.l/work/sorrento/i-chebykin.coverage/sorrento/'
-remove_prefix = repo_root
+repo_root = None
+remove_prefix = None
 
 
 class SortedDict(OrderedDict):
@@ -80,6 +80,9 @@ def print_total_header():
 
 
 def main(argv):
+    global repo_root
+    global remove_prefix
+
     sys_args = argv if argv is not None else sys.argv[:]
     sys_args = [x for x in sys_args if x or isinstance(x, int)]
 
@@ -89,6 +92,10 @@ def main(argv):
     version = "1.01"
     parser = OptionParser(usage=usage, description=description, version=version, epilog=epilog)
 
+    parser.add_option("-p", "--prefix",
+                      action="store", dest="prefix",
+                      metavar="PATH", default=None,
+                      help="Prefix to remove from dir/file names. Mandatory")
     parser.add_option("-i", "--in",
                       action="store", dest="in_file",
                       metavar="PATH", default=None,
@@ -99,6 +106,15 @@ def main(argv):
                       help="Path to output file, else use <stdout>")
 
     (options, argv) = parser.parse_args(sys_args[1:])
+
+    if options.prefix is None:
+        printf("ERROR: need to specify option `--prefix`")
+        return -1
+    else:
+        if options.prefix[-1] != "/":
+            options.prefix = options.prefix + '/'
+        repo_root = options.prefix
+        remove_prefix = options.prefix
 
     if options.in_file is None:
         input_stream = sys.stdin
@@ -125,7 +141,6 @@ def main(argv):
     for line in input_stream:
         line = re.sub("\n", "", line)
         line = re.sub(remove_prefix, '', line)
-        #print(line)
 
         matchDir = reDir.match(line)
         if matchDir:
