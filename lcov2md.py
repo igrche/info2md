@@ -92,34 +92,33 @@ def main(argv):
     version = "1.01"
     parser = OptionParser(usage=usage, description=description, version=version, epilog=epilog)
 
-    parser.add_option("-p", "--prefix",
-                      action="store", dest="prefix",
+    parser.add_option("-r", "--repo-root",
+                      action="store", dest="repo_root",
                       metavar="PATH", default=None,
-                      help="Prefix to remove from dir/file names. Mandatory")
+                      help="path to repository root, mandatory")
     parser.add_option("-i", "--in",
                       action="store", dest="in_file",
                       metavar="PATH", default=None,
-                      help="Path to lcov info file, else use <stdin>")
+                      help="path to lcov info file, <stdin> otherwise")
     parser.add_option("-o", "--out",
                       action="store", dest="out_file",
                       metavar="PATH", default=None,
-                      help="Path to output file, else use <stdout>")
+                      help="path to output file, <stdout> otherwise")
 
     (options, argv) = parser.parse_args(sys_args[1:])
 
-    if options.prefix is None:
-        printf("ERROR: need to specify option `--prefix`")
+    if options.repo_root is None:
+        printf("ERROR: need to specify repository root path")
         return -1
     else:
-        if options.prefix[-1] != "/":
-            options.prefix = options.prefix + '/'
-        repo_root = options.prefix
-        remove_prefix = options.prefix
+        if options.repo_root[-1] != "/":
+            options.repo_root = options.repo_root + '/'
+        repo_root = options.repo_root
+        remove_prefix = options.repo_root
 
     if options.in_file is None:
         input_stream = sys.stdin
     else:
-        # input_stream = open(options.in_file)
         input_stream = os.popen('lcov --no-list-full-path --list ' + options.in_file)
 
     orig_stdout = None
