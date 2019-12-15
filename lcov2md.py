@@ -162,6 +162,8 @@ def main(argv):
 
         matchTotal = reTotal.match(line)
         if matchTotal:
+            if dir:
+                dirs[dir] = list(files)
             total = {
                 'file': matchTotal.group(1),
                 'l-rate': matchTotal.group(2),
